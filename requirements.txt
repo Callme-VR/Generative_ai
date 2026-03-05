@@ -9,12 +9,16 @@ langchain-community
 langchain-openai
 langchain-google-genai
 langchain-groq
+langchain-huggingface
 langchain-mistralai
 langchain-text-splitters
 
+huggingface_hub
+transformers
+sentence-transformers
+
 faiss-cpu
 chromadb
-sentence-transformers
 
 tiktoken
 
@@ -27,6 +31,7 @@ uvicorn
 
 requests
 httpx
+
 numpy
 pandas
 tqdm
@@ -36,3 +41,4 @@ python-docx
 unstructured
 
 torch
+accelerate

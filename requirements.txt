@@ -42,3 +42,10 @@ unstructured
 
 torch
 accelerate
+
+streamlit
+langchain
+langchain-core
+langchain-mistralai
+pydantic
+python-dotenv

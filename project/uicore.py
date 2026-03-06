@@ -48,6 +48,9 @@ st.title("Movie Information Extractor")
 if "paragraph" not in st.session_state:
     st.session_state.paragraph = ""
 
+if "output" not in st.session_state:
+    st.session_state.output = ""
+
 
 paragraph = st.text_area(
     "Enter Movie Paragraph",
@@ -78,9 +81,21 @@ if extract:
 
     movies_data = parser.parse(response.content)
 
+    st.session_state.output = str(movies_data)
+
     st.write(movies_data)
 
 
 if reset:
     st.session_state.paragraph = ""
+    st.session_state.output = ""
     st.rerun()
+
+
+if st.session_state.output:
+    st.download_button(
+        label="Download Output",
+        data=st.session_state.output,
+        file_name="movie_data.txt",
+        mime="text/plain"
+    )

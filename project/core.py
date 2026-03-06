@@ -59,5 +59,5 @@ movies_data = parser.parse(response.content)
 print(movies_data)
 
 
-response = model.invoke("Hello, how are you?")
+response = model.invoke("tell me about the Movies ?")
 print(response.content)

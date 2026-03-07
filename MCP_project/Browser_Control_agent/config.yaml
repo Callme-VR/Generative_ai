@@ -1,0 +1,5 @@
+mcp_servers:
+  stitch:
+    transport:
+      type: sse
+      url: https://stitch.googleapis.com/mcp

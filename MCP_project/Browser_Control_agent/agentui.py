@@ -5,43 +5,56 @@ from agent import BrowserAgent
 from dotenv import load_dotenv
 load_dotenv()
 
-
+# Page configuration
 st.set_page_config(
-    page_title="Autonomous Browser Agent",
+    page_title="Browser Control Agent",
     page_icon="🌐",
     layout="wide"
 )
 
 
-st.title("🌐 Autonomous Browser Agent")
+# Header
+st.title("🌐 Browser Control Agent")
 
 st.markdown(
     """
-AI agent that can **plan tasks, control a browser, and execute multi-step actions automatically**.
+Control a real browser using **AI + MCP + Playwright**.
 """
 )
 
 
+# Sidebar
 with st.sidebar:
 
-    st.header("Example Tasks")
+    st.header("Examples")
 
     st.markdown("""
-Open github.com and summarize the homepage
+**Navigation**
 
-Go to wikipedia.org and search Artificial Intelligence
+Go to github.com  
+Open google.com  
 
-Navigate to github.com/Shubhamsaboo/awesome-llm-apps and explain the project
+**Interactions**
+
+Click on mcp_ai_agents  
+Scroll down to view content  
+
+**Multi Step Tasks**
+
+Navigate to github.com/Shubhamsaboo/awesome-llm-apps  
+Scroll down and summarize the page
 """)
 
 
+# User Input
 query = st.text_area(
-    "Task",
-    placeholder="Example: Open github.com and summarize the homepage",
+    "Your Instruction to Control Browser",
+    placeholder="Example: Go to github.com and summarize the page",
     height=120
 )
 
 
+# Session State
 if "agent" not in st.session_state:
     st.session_state.agent = BrowserAgent()
 
@@ -59,8 +72,9 @@ def start_run():
     st.session_state.running = True
 
 
+# Run Button
 st.button(
-    "🚀 Run Autonomous Task",
+    "🚀 Run Command",
     use_container_width=True,
     type="primary",
     disabled=st.session_state.running,
@@ -68,9 +82,10 @@ st.button(
 )
 
 
+# Execute Agent
 if st.session_state.running:
 
-    with st.spinner("Agent planning and controlling browser..."):
+    with st.spinner("Agent controlling browser..."):
 
         result = st.session_state.loop.run_until_complete(
             st.session_state.agent.run(query)
@@ -81,12 +96,14 @@ if st.session_state.running:
     st.rerun()
 
 
+# Response Display
 if st.session_state.result:
 
-    st.subheader("Agent Result")
+    st.subheader("Response")
 
     st.markdown(st.session_state.result)
 
 
+# Footer
 st.markdown("---")
-st.caption("Powered by MCP • Playwright • Google LLM")
+st.caption("Built with Streamlit • MCP-Agent • Playwright")

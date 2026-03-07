@@ -1,10 +1,21 @@
-mcp_servers:
-  stitch:
-    transport:
-      type: sse
-      url: https://stitch.googleapis.com/mcp
-  playwright:
-    command: npx
-    args:
-      - "-y"
-      - "@modelcontextprotocol/server-playwright"
+execution_engine: asyncio
+
+logger:
+  transports: [console, file]
+  level: debug
+  progress_display: true
+  path_settings:
+    path_pattern: "logs/mcp-agent-{unique_id}.jsonl"
+    unique_id: "timestamp"
+    timestamp_format: "%Y%m%d_%H%M%S"
+
+mcp:
+  servers:
+    playwright:
+      command: "npx"
+      args:
+        - "-y"
+        - "@playwright/mcp@latest"
+
+google:
+  default_model: "gemini-2.5-pro"

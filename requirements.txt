@@ -49,3 +49,6 @@ langchain-core
 langchain-mistralai
 pydantic
 python-dotenv
+mcp-agent
+openai
+asyncio

@@ -3,3 +3,8 @@ mcp_servers:
     transport:
       type: sse
       url: https://stitch.googleapis.com/mcp
+  playwright:
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-playwright"

@@ -1,86 +1,92 @@
 import asyncio
 import streamlit as st
-import os
-from textwrap import dedent
 
-from mcp_agent.app import MCPApp
-from mcp_agent.agents.agent import Agent
-from mcp_agent.workflows.llm.augmented_llm_google import GoogleAugmentedLLM
-from mcp_agent.workflows.llm.augmented_llm import RequestParams
+from agent import BrowserAgent
+from dotenv import load_dotenv
+load_dotenv()
 
-# Page configuration
+
 st.set_page_config(
-    page_title="Browser Control Agent",
-    page_icon="🤖",
-    layout="wide",
-    initial_sidebar_state="expanded",
+    page_title="Autonomous Browser Agent",
+    page_icon="🌐",
+    layout="wide"
 )
 
-# Title
-st.title("Browser Control Agent")
 
-# Description
-st.markdown("""
-This is a simple browser control agent that can be used to control the browser using MCP.
-""")
+st.title("🌐 Autonomous Browser Agent")
+
+st.markdown(
+    """
+AI agent that can **plan tasks, control a browser, and execute multi-step actions automatically**.
+"""
+)
+
 
 with st.sidebar:
-    st.markdown("## Configuration")
+
+    st.header("Example Tasks")
+
     st.markdown("""
-                ### Navigations
-    """)
-    st.markdown("**Interactions**")
-    st.markdown("- click on mcp_ai_agents")
-    st.markdown("- Scroll down to view more content")
+Open github.com and summarize the homepage
 
-    st.markdown("**Multi-step Tasks**")
-    st.markdown(
-        "- Navigate to github.com/Shubhamsaboo/awesome-llm-apps, scroll down, and report details")
-    st.markdown("- Scroll down and summarize the github readme")
+Go to wikipedia.org and search Artificial Intelligence
 
-    st.markdown("---")
-    st.caption("Note: The agent uses Playwright to control a real browser.")
+Navigate to github.com/Shubhamsaboo/awesome-llm-apps and explain the project
+""")
+
 
 query = st.text_area(
-    "Your Instruction to Control Browser",
-    placeholder="Enter your instruction here"
+    "Task",
+    placeholder="Example: Open github.com and summarize the homepage",
+    height=120
 )
 
-# Initialize the app and agent that can control your browser
-if 'initialized' not in st.session_state:
-    st.session_state.initialized = False
-    st.session_state.mcp_app = MCPApp(
-        name="MCPA_AGENT", description="Browser Control Agent")
-    st.session_state.mcp_context = None
-    st.session_state.mcp_agent = None
-    st.session_state.mcp_workflow = None
-    st.session_state.mcp_browser_agent = None
-    st.session_state.llm = None
+
+if "agent" not in st.session_state:
+    st.session_state.agent = BrowserAgent()
+
+if "loop" not in st.session_state:
+    st.session_state.loop = asyncio.new_event_loop()
+
+if "result" not in st.session_state:
+    st.session_state.result = None
+
+if "running" not in st.session_state:
+    st.session_state.running = False
 
 
-async def setup_agent():
-    if not st.session_state.initialized:
-        try:
-            st.session_state.mcp_context = st.session_state.mcp_app.run()
-            st.session_state.mcp_agent_app = await st.session_state.mcp_context.__aenter__()
+def start_run():
+    st.session_state.running = True
 
-            # create and initialized the agent
-            st.session_state.mcp_browser_agent = Agent(
-                name="Browser Agent",
-                instruction="""
-                you are helpful web browsing assistant that can interact with websites using playwright
-                -Navigate to websites and perform browser actions like (click,scroll,enter,exit,type)
-                -extract information from websites and web pages
-                -take screenshots of websites and web pages
-                -provide concise summaries of web content using markdown format
-                -follow the instruction sequences to complete tasks
-                
-                Respond back with status code updates completing the command and execution of instructions
-                """,
-                server_names=["playwright"],
-            )
 
-            st.session_state.initialized = True
+st.button(
+    "🚀 Run Autonomous Task",
+    use_container_width=True,
+    type="primary",
+    disabled=st.session_state.running,
+    on_click=start_run
+)
 
-        except Exception as e:
-            raise e
+
+if st.session_state.running:
+
+    with st.spinner("Agent planning and controlling browser..."):
+
+        result = st.session_state.loop.run_until_complete(
+            st.session_state.agent.run(query)
+        )
+
+    st.session_state.result = result
+    st.session_state.running = False
+    st.rerun()
+
+
+if st.session_state.result:
+
+    st.subheader("Agent Result")
+
+    st.markdown(st.session_state.result)
+
+
+st.markdown("---")
+st.caption("Powered by MCP • Playwright • Google LLM")

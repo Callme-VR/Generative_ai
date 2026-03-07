@@ -52,3 +52,8 @@ python-dotenv
 mcp-agent
 openai
 asyncio
+
+streamlit
+mcp-agent
+google-generativeai
+playwright

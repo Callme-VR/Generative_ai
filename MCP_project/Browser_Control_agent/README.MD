@@ -1,6 +1,8 @@
 # 🌐 Browser Control Agent
 
 A sophisticated AI-powered browser automation tool built with **MCP (Model Context Protocol)**, **Playwright**, and **Streamlit**. Control your browser using natural language instructions, powered by state-of-the-art LLMs like Google Gemini and OpenAI.
+## 🎥 Demo
+https://github.com/user-attachments/assets/5d5b0ecc-f402-4f0f-a11c-5e0189a4c7ed
 
 ---
 

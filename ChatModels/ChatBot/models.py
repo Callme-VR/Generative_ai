@@ -1,11 +1,9 @@
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain_mistralai import ChatMistralAI
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
-from langchain_mistralai import ChatMistralAI
-from langchain_core.messages import HumanMessage, AIMessage
-
 
 
 model = ChatMistralAI(

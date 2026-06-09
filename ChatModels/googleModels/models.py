@@ -27,6 +27,6 @@ print(response_content)
 
 
 
-from langchain.chatopenai import ChatOpenAI
-model = ChatOpenAI(model="gemini-3.1-flash-lite-preview", model_provider="google_genai")
-response = model.invoke("What is the capital of France?")
+# from langchain.chatopenai import ChatOpenAI
+# model = ChatOpenAI(model="gemini-3.1-flash-lite-preview", model_provider="google_genai")
+# response = model.invoke("What is the capital of France?")
